@@ -52,6 +52,18 @@ class ExportacaoServiceTest {
         Relatorio relatorio = relatorioService.criarRelatorio(TipoRelatorio.CLIENTES);
         assertDoesNotThrow(() -> exportacaoService.exportar(relatorio, FormatoRelatorio.JSON));
     }
+    
+    @Test
+    void deveExportarRelatorioEmHtmlSemErro() {
+        Relatorio relatorio = relatorioService.criarRelatorio(TipoRelatorio.ESTOQUE);
+        assertDoesNotThrow(() -> exportacaoService.exportar(relatorio, FormatoRelatorio.HTML));
+    }
+    
+    @Test
+    void deveExportarRelatorioEmXmlSemErro() {
+        Relatorio relatorio = relatorioService.criarRelatorio(TipoRelatorio.VENDAS);
+        assertDoesNotThrow(() -> exportacaoService.exportar(relatorio, FormatoRelatorio.XML));
+    }
 
     @Test
     void exportacaoDeveExibirCaminhoDoArquivo() {

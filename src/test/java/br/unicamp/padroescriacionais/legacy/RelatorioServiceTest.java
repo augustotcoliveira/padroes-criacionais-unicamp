@@ -86,6 +86,28 @@ class RelatorioServiceTest {
         assertTrue(resultado.contains("{"), "Saida JSON deve conter '{'");
         assertTrue(resultado.contains("}"), "Saida JSON deve conter '}'");
     }
+    // Adicionado
+    @Test
+    void deveGerarConteudoHtmlComTags() {
+        String resultado = service.gerarRelatorio(TipoRelatorio.CLIENTES, FormatoRelatorio.HTML);
+
+        assertNotNull(resultado);
+        assertFalse(resultado.isBlank());
+        assertTrue(resultado.contains("<!DOCTYPE html>"), "Saida HTML deve conter a declaracao do doctype");
+        assertTrue(resultado.contains("<html"), "Saida HTML deve conter a tag de abertura '<html>'");
+        assertTrue(resultado.contains("</html>"), "Saida HTML deve conter a tag de fechamento '</html>'");
+    }
+    //Adicionado
+    @Test
+    void deveGerarConteudoXmlComTags() {
+        String resultado = service.gerarRelatorio(TipoRelatorio.CLIENTES, FormatoRelatorio.XML);
+
+        assertNotNull(resultado);
+        assertFalse(resultado.isBlank());
+        assertTrue(resultado.contains("<?xml"), "Saida XML deve conter a declaracao '<?xml'");
+        assertTrue(resultado.contains("<relatorio"), "Saida XML deve conter a tag raiz '<relatorio'");
+        assertTrue(resultado.contains("</relatorio>"), "Saida XML deve conter a tag de fechamento '</relatorio>'");
+    }
 
     @Test
     void todosFormatosDevemProduizirConteudoValido() {
