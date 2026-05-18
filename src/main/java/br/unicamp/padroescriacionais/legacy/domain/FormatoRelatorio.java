@@ -1,9 +1,11 @@
 package br.unicamp.padroescriacionais.legacy.domain;
 
 import br.unicamp.padroescriacionais.legacy.generator.CsvRelatorioGeneratorFactory;
+import br.unicamp.padroescriacionais.legacy.generator.HtmlRelatorioGeneratorFactory;
 import br.unicamp.padroescriacionais.legacy.generator.JsonRelatorioGeneratorFactory;
 import br.unicamp.padroescriacionais.legacy.generator.PdfRelatorioGeneratorFactory;
 import br.unicamp.padroescriacionais.legacy.generator.RelatorioGeneratorFactory;
+import br.unicamp.padroescriacionais.legacy.generator.XmlRelatorioGeneratorFactory;
 
 public enum FormatoRelatorio {
     PDF {
@@ -22,6 +24,18 @@ public enum FormatoRelatorio {
         @Override
         public RelatorioGeneratorFactory getRelatorioGeneratorFactory() {
             return new JsonRelatorioGeneratorFactory();
+        }
+    },
+    HTML {
+        @Override
+        public RelatorioGeneratorFactory getRelatorioGeneratorFactory() {
+            return new HtmlRelatorioGeneratorFactory();
+        }
+    },
+    XML {
+        @Override
+        public RelatorioGeneratorFactory getRelatorioGeneratorFactory() {
+            return new XmlRelatorioGeneratorFactory();
         }
     };
     
