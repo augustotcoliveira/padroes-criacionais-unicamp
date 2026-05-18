@@ -4,9 +4,8 @@ import br.unicamp.padroescriacionais.legacy.domain.ConfiguracaoSistema;
 import br.unicamp.padroescriacionais.legacy.domain.FormatoRelatorio;
 import br.unicamp.padroescriacionais.legacy.domain.Relatorio;
 import br.unicamp.padroescriacionais.legacy.domain.TipoRelatorio;
-import br.unicamp.padroescriacionais.legacy.generator.CsvRelatorioGenerator;
-import br.unicamp.padroescriacionais.legacy.generator.JsonRelatorioGenerator;
-import br.unicamp.padroescriacionais.legacy.generator.PdfRelatorioGenerator;
+import br.unicamp.padroescriacionais.legacy.generator.RelatorioGenerator;
+import br.unicamp.padroescriacionais.legacy.generator.RelatorioGeneratorFactory;
 
 import java.time.LocalDateTime;
 
@@ -45,23 +44,12 @@ public class RelatorioService {
 
     public String gerarRelatorio(TipoRelatorio tipo, FormatoRelatorio formato) {
         Relatorio relatorio = criarRelatorio(tipo);
-
-        if (configuracao.isDebugAtivo()) {
-            System.out.println("[DEBUG-RelatorioService] Gerando: " + tipo + " -> " + formato);
-        }
-
-        if (formato == FormatoRelatorio.PDF) {
-            PdfRelatorioGenerator generator = new PdfRelatorioGenerator();
-            return generator.gerar(relatorio);
-        } else if (formato == FormatoRelatorio.CSV) {
-            CsvRelatorioGenerator generator = new CsvRelatorioGenerator();
-            return generator.gerar(relatorio);
-        } else if (formato == FormatoRelatorio.JSON) {
-            JsonRelatorioGenerator generator = new JsonRelatorioGenerator();
-            return generator.gerar(relatorio);
-        } else {
-            throw new IllegalArgumentException("Formato desconhecido: " + formato);
-        }
+        // Recupera em FormatoRelatorio qual factory deve ser usada
+        RelatorioGeneratorFactory fabrica = formato.getRelatorioGeneratorFactory();
+        // Cria o devido objeto conforme factory recuperada
+        RelatorioGenerator geradorRelatorio = fabrica.createGenerator();
+        // Gera e retorna relatorio conforme generator selecionado
+        return geradorRelatorio.gerar(relatorio);
     }
 
     private String gerarConteudoVendas() {
