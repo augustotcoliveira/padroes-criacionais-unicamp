@@ -3,13 +3,16 @@ package br.unicamp.padroescriacionais.legacy.service;
 import br.unicamp.padroescriacionais.legacy.domain.ConfiguracaoSistema;
 
 public class ConfiguracaoService {
+    // Recuperamos a instancia ja iniciada internamente na classe ConfiguracaoSistema
+    private ConfiguracaoSistema configuracao = ConfiguracaoSistema.getInstance();
 
-    private ConfiguracaoSistema configuracao = new ConfiguracaoSistema(
-            "Empresa XPTO Ltda.",
-            "DEV",
-            "/tmp/relatorios",
-            true
-    );
+    // Setamos os valores atraves de um construtor
+    public ConfiguracaoService() {
+        configuracao.setNomeEmpresa("Empresa XPTO Ltda.");
+        configuracao.setAmbiente("DEV");
+        configuracao.setDiretorioExportacao("/tmp/relatorios");
+        configuracao.setDebugAtivo(true);
+    }
 
     public ConfiguracaoSistema getConfiguracao() {
         return configuracao;

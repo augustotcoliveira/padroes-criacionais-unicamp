@@ -11,12 +11,16 @@ import java.time.LocalDateTime;
 
 public class RelatorioService {
 
-    private ConfiguracaoSistema configuracao = new ConfiguracaoSistema(
-            "Empresa XPTO",
-            "DEV",
-            "/tmp/relatorios",
-            false
-    );
+    // Recuperamos a instancia ja iniciada internamente na classe ConfiguracaoSistema
+    private ConfiguracaoSistema configuracao = ConfiguracaoSistema.getInstance();
+
+    // Setamos os valores atraves de um construtor
+    public RelatorioService() {
+        configuracao.setNomeEmpresa("Empresa XPTO Ltda.");
+        configuracao.setAmbiente("PROD");
+        configuracao.setDiretorioExportacao("/var/exports/relatorios");
+        configuracao.setDebugAtivo(false);
+    }
 
     public Relatorio criarRelatorio(TipoRelatorio tipo) {
         String titulo;
