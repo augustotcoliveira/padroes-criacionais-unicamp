@@ -6,16 +6,28 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.BeforeEach;
+
 class ConfiguracaoSistemaTest {
 
+    // Como o Singleton mantém os dados na memória, o método resetarEstadoDoSingleton roda antes de 
+    // cada teste para garantir que um teste não interfira no resultado do outro.
+    @BeforeEach
+    void resetarEstadoDoSingleton() {
+        ConfiguracaoSistema config = ConfiguracaoSistema.getInstance();
+        config.setNomeEmpresa("Empresa Padrão");
+        config.setAmbiente("DEV");
+        config.setDiretorioExportacao("/tmp");
+        config.setDebugAtivo(false);
+    }
+
     @Test
-    void deveCriarConfiguracaoComValoresInformados() {
-        ConfiguracaoSistema config = new ConfiguracaoSistema(
-                "Empresa Teste",
-                "DEV",
-                "/tmp/test",
-                true
-        );
+    void deveConfigurarValoresInformados() {
+        ConfiguracaoSistema config = ConfiguracaoSistema.getInstance();
+        config.setNomeEmpresa("Empresa Teste");
+        config.setAmbiente("DEV");
+        config.setDiretorioExportacao("/tmp/test");
+        config.setDebugAtivo(true);
 
         assertEquals("Empresa Teste", config.getNomeEmpresa());
         assertEquals("DEV", config.getAmbiente());
@@ -25,7 +37,7 @@ class ConfiguracaoSistemaTest {
 
     @Test
     void devePermitirAlteracaoDeAmbiente() {
-        ConfiguracaoSistema config = new ConfiguracaoSistema("Empresa", "DEV", "/tmp", false);
+        ConfiguracaoSistema config = ConfiguracaoSistema.getInstance();
         config.setAmbiente("PROD");
 
         assertEquals("PROD", config.getAmbiente());
@@ -33,7 +45,7 @@ class ConfiguracaoSistemaTest {
 
     @Test
     void devePermitirAlteracaoDeDebug() {
-        ConfiguracaoSistema config = new ConfiguracaoSistema("Empresa", "DEV", "/tmp", false);
+        ConfiguracaoSistema config = ConfiguracaoSistema.getInstance();
         config.setDebugAtivo(true);
 
         assertTrue(config.isDebugAtivo());
@@ -41,31 +53,32 @@ class ConfiguracaoSistemaTest {
 
     @Test
     void devePermitirAlteracaoDeDiretorio() {
-        ConfiguracaoSistema config = new ConfiguracaoSistema("Empresa", "DEV", "/tmp", false);
+        ConfiguracaoSistema config = ConfiguracaoSistema.getInstance();
         config.setDiretorioExportacao("/novo/diretorio");
 
         assertEquals("/novo/diretorio", config.getDiretorioExportacao());
     }
 
     @Test
-    void duasInstanciasIndependentesPodemTerAmbientesDiferentes() {
-        ConfiguracaoSistema configDev = new ConfiguracaoSistema("Empresa", "DEV", "/tmp", true);
-        ConfiguracaoSistema configProd = new ConfiguracaoSistema("Empresa", "PROD", "/exports", false);
+    void deveGarantirInstanciaUnica() {
+        // Pega a instância duas vezes
+        ConfiguracaoSistema config1 = ConfiguracaoSistema.getInstance();
+        ConfiguracaoSistema config2 = ConfiguracaoSistema.getInstance();
 
-        assertNotEquals(configDev.getAmbiente(), configProd.getAmbiente());
-        assertNotEquals(configDev.getDiretorioExportacao(), configProd.getDiretorioExportacao());
-        assertNotEquals(configDev.isDebugAtivo(), configProd.isDebugAtivo());
+        // assertSame verifica se as duas variáveis apontam para o exato mesmo objeto na memória
+        assertSame(config1, config2, "O Singleton falhou: variáveis apontam para instâncias diferentes");
     }
 
     @Test
-    void alteracaoEmUmaInstanciaNaoAfetaOutra() {
-        ConfiguracaoSistema config1 = new ConfiguracaoSistema("Empresa", "DEV", "/tmp", false);
-        ConfiguracaoSistema config2 = new ConfiguracaoSistema("Empresa", "DEV", "/tmp", false);
+    void alteracaoEmUmaReferenciaAfetaTodasAsOutras() {
+        ConfiguracaoSistema config1 = ConfiguracaoSistema.getInstance();
+        ConfiguracaoSistema config2 = ConfiguracaoSistema.getInstance();
 
+        // Alteramos usando a primeira variável
         config1.setAmbiente("PROD");
 
-        assertEquals("PROD", config1.getAmbiente());
-        assertEquals("DEV", config2.getAmbiente());
+        // Verificamos se a mudança refletiu na segunda variável (já que são a mesma instância)
+        assertEquals("PROD", config2.getAmbiente(), "A alteração na config1 deveria refletir na config2");
     }
 
     @Test
