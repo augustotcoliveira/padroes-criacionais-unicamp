@@ -10,17 +10,9 @@ import br.unicamp.padroescriacionais.legacy.generator.RelatorioGeneratorFactory;
 import java.time.LocalDateTime;
 
 public class RelatorioService {
-
-    // Recuperamos a instancia ja iniciada internamente na classe ConfiguracaoSistema
+    // Recuperamos a instancia criada internamente na classe ConfiguracaoSistema
+    //e com os valores ja setados em ConfiguracaoService.
     private ConfiguracaoSistema configuracao = ConfiguracaoSistema.getInstance();
-
-    // Setamos os valores atraves de um construtor
-    public RelatorioService() {
-        configuracao.setNomeEmpresa("Empresa XPTO Ltda.");
-        configuracao.setAmbiente("PROD");
-        configuracao.setDiretorioExportacao("/var/exports/relatorios");
-        configuracao.setDebugAtivo(false);
-    }
 
     public Relatorio criarRelatorio(TipoRelatorio tipo) {
         String titulo;

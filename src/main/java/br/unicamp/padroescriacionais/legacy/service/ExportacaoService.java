@@ -7,16 +7,9 @@ import br.unicamp.padroescriacionais.legacy.generator.RelatorioGenerator;
 import br.unicamp.padroescriacionais.legacy.generator.RelatorioGeneratorFactory;
 
 public class ExportacaoService {
-    // Recuperamos a instancia ja iniciada internamente na classe ConfiguracaoSistema
+    // Recuperamos a instancia criada internamente na classe ConfiguracaoSistema
+    //e com os valores ja setados em ConfiguracaoService.
     private ConfiguracaoSistema configuracao = ConfiguracaoSistema.getInstance();
-
-    // Setamos os valores atraves de um construtor
-    public ExportacaoService() {
-        configuracao.setNomeEmpresa("Empresa XPTO Ltda.");
-        configuracao.setAmbiente("PROD");
-        configuracao.setDiretorioExportacao("/var/exports/relatorios");
-        configuracao.setDebugAtivo(false);
-    }
 
     public void exportar(Relatorio relatorio, FormatoRelatorio formato) {
         String conteudoFormatado;
