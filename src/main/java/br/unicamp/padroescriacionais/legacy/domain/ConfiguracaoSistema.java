@@ -10,6 +10,10 @@ public class ConfiguracaoSistema {
     private static ConfiguracaoSistema configuracao = new ConfiguracaoSistema();
 
     private ConfiguracaoSistema() {
+        this.nomeEmpresa = "Nome da empresa aqui.";
+        this.ambiente = "ambiente aqui (DEV ou PROD)";
+        this.diretorioExportacao = "diretorio de exportacao aquiu (ex: '/tmp/relatorios')";
+        this.debugAtivo = false;
     }
 
     public static ConfiguracaoSistema getInstance(){
