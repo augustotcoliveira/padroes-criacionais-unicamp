@@ -7,14 +7,9 @@ public class ConfiguracaoSistema {
     private String diretorioExportacao;
     private boolean debugAtivo;
 
-    private static ConfiguracaoSistema configuracao = new ConfiguracaoSistema(null, null, null, false);
+    private static ConfiguracaoSistema configuracao = new ConfiguracaoSistema();
 
-    private ConfiguracaoSistema(String nomeEmpresa, String ambiente,
-                               String diretorioExportacao, boolean debugAtivo) {
-        this.nomeEmpresa = nomeEmpresa;
-        this.ambiente = ambiente;
-        this.diretorioExportacao = diretorioExportacao;
-        this.debugAtivo = debugAtivo;
+    private ConfiguracaoSistema() {
     }
 
     public static ConfiguracaoSistema getInstance(){

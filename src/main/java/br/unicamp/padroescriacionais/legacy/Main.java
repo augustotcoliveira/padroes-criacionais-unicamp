@@ -12,9 +12,9 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
+        ConfiguracaoService configuracaoService = new ConfiguracaoService();
         RelatorioService relatorioService = new RelatorioService();
         ExportacaoService exportacaoService = new ExportacaoService();
-        ConfiguracaoService configuracaoService = new ConfiguracaoService();
 
         Scanner scanner = new Scanner(System.in);
 
