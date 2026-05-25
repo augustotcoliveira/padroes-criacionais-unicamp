@@ -12,7 +12,7 @@ public class ConfiguracaoSistema {
     private ConfiguracaoSistema() {
         this.nomeEmpresa = "Nome da empresa aqui.";
         this.ambiente = "ambiente aqui (DEV ou PROD)";
-        this.diretorioExportacao = "diretorio de exportacao aquiu (ex: '/tmp/relatorios')";
+        this.diretorioExportacao = "diretorio de exportacao aqui (ex: '/tmp/relatorios')";
         this.debugAtivo = false;
     }
 
